@@ -1,10 +1,14 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
-import { darkTheme } from "./theme";
+import { darkTheme, lightTheme } from "./theme";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600&display=swap');
   * {
     box-sizing : border-box;
   }
@@ -23,10 +27,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle></GlobalStyle>
+        <RouterProvider router={router}></RouterProvider>
       </ThemeProvider>
     </>
   );
